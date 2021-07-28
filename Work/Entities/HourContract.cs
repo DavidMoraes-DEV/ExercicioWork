@@ -10,6 +10,7 @@ namespace Work.Entities
         public double ValuePerHour { get; set; }
         public int Hours { get; set; }
 
+        public HourContract () { }
         public HourContract (DateTime date, double valuePerHour, int hours)
         {
             Date = date;
@@ -17,9 +18,9 @@ namespace Work.Entities
             Hours = hours;
         }
 
-        public double totalValue (double valuePerHour, int hours)
+        public double TotalValue ()
         {
-            return valuePerHour * hours;
+            return ValuePerHour * Hours;
         }
     }
 }

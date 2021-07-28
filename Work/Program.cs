@@ -10,9 +10,7 @@ namespace Work
         static void Main(string[] args)
         {
             Console.Write("Enter department's name: ");
-            string department = Console.ReadLine();
-
-            Department department1 = new Department(department);
+            Department department = new Department(Console.ReadLine());
 
             Console.WriteLine("Enter worker data:");
 
@@ -23,7 +21,7 @@ namespace Work
             Console.Write("Base Salary: ");
             double baseSalary = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
-            Worker worker = new Worker(name, level, baseSalary);
+            Worker worker = new Worker(name, level, baseSalary, department);
 
             Console.Write("How many contracts to this worker? ");
             int n = int.Parse(Console.ReadLine());
@@ -43,13 +41,54 @@ namespace Work
             }
 
             Console.Write("Enter month and year to calculate income (MM/YYYY): ");
-            DateTime income = DateTime.Parse(Console.ReadLine());
+            string income = Console.ReadLine();
+            int month = int.Parse(income.Substring(0, 2));
+            int year = int.Parse(income.Substring(3));
 
             Console.WriteLine($"Name: {worker.Name}");
-            Console.WriteLine($"Department: {department1.Name}");
+            Console.WriteLine($"Department: {worker.Department.Name}");
 
-            Console.WriteLine($"Income for {income}: {worker.Income(income.Year, income.Month)}");
+            Console.WriteLine($"Income for {income}: {worker.Income(year, month).ToString("F2", CultureInfo.InvariantCulture)}");
 
         }
     }
 }
+
+/*
+ Ler os dados de um trabalhador com N contratos (N fornecido pelo usuário). Depois, solicitar
+do usuário um mês e mostrar qual foi o salário do funcionário nesse mês, conforme exemplo:
+
+Enter department's name: Design
+
+Enter worker data:
+Name: Alex
+Level (Junior/MidLevel/Senior): MidLevel
+Base salary: 1200.00
+
+How many contracts to this worker? 3
+
+Enter #1 contract data:
+
+Date (DD/MM/YYYY): 20/08/2018
+Value per hour: 50.00
+Duration (hours): 20
+
+Enter #2 contract data:
+
+Date (DD/MM/YYYY): 13/06/2018
+Value per hour: 30.00
+Duration (hours): 18
+
+Enter #3 contract data:
+
+Date (DD/MM/YYYY): 25/08/2018
+Value per hour: 80.00
+Duration (hours): 10
+
+Enter month and year to calculate income (MM/YYYY): 08/2018
+
+Name: Alex
+Department: Design
+Income for 08/2018: 3000.00
+
+ */

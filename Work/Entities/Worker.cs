@@ -1,6 +1,5 @@
-﻿using System;
-using Work.Entities;
-using Work.Entities.Enum;
+﻿using Work.Entities.Enum;
+using System.Collections.Generic;
 
 namespace Work.Entities
 {
@@ -9,27 +8,44 @@ namespace Work.Entities
         public string Name { get; set; }
         public WorkerLevel Level { get; set; }
         public double BaseSalary { get; set; }
+        public Department Department { get; set; } //Associação(Composição) de duas classes diferentes
+        public List<HourContract> Contracts { get; set; } = new List<HourContract>(); //Associação(Composição) de duas classes diferentes e Obs. Quando há uma associação de um para muitos não se deve inclui=lo no construtuor.
 
-        public Worker (string name, WorkerLevel level, double baseSalary)
+        public Worker()
+        {
+        }
+
+        public Worker (string name, WorkerLevel level, double baseSalary, Department department)
         {
             Name = name;
             Level = level;
             BaseSalary = baseSalary;
+            Department = department;
         }
 
         public void AddContract (HourContract contract)
         {
-            contract.totalValue
+            Contracts.Add(contract);
         }
 
         public void RemoveContract (HourContract contract)
         {
-
+            Contracts.Remove(contract);
         }
 
         public double Income (int year, int month)
         {
-            return 0;
+            double sum = BaseSalary;
+
+            foreach (HourContract contract in Contracts)
+            {
+                if(contract.Date.Year == year && contract.Date.Month == month)
+                {
+                    sum += contract.TotalValue();
+                }
+            }
+
+            return sum;
         }
     }
 }
